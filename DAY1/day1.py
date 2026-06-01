@@ -32,7 +32,7 @@ print(f"Before swap: x = {x} and y = {y}")
 x, y = y, x
 print(f"After swap: x = {x} and y = {y}")
 
-# Unpack lists
+# ----- Unpack lists -----
 student_info = ["Charlie", 21, 80.0]
 name, age, score = student_info
 print(f"Unpacked: {name, age, score}")
@@ -42,7 +42,7 @@ print("Name:", name1) # This will be a list containing name
 print("Others:", others) # this will be a list containing age and score
 
 
-# Creating lists
+# ----- Creating lists ------
 
 student_names = ['Alice', 'Bob', 'Charlie', "Diana"]
 student_numbers = [85, 92, 78, 95]
@@ -56,7 +56,7 @@ print(f"First three student name: {student_names[0:3]}") # First three student
 print(f"Student from index 1 to end: {student_names[:]}") # All students getting first to last
 print(f"Student ignore by space: {student_names[::2]}") # Ignore two spaces names
 
-# List Operations
+# ----- List Operations -----
 student_names.append("Eve") # append -> Add t end
 print(f"After adding name: {student_names}")
 
@@ -71,7 +71,8 @@ print(f"After removing Bob: {student_names}")
 passing_scores = [score for score in student_numbers if score >= 80]
 print("\nPassing scores (>=80):", passing_scores)
 
-# Common methods
+# ----- Common methods -----
 print('NUmber of students:', len(student_names))
 print("Higher student score:", max(student_numbers))
 print("Lowest student score:", min(student_numbers))
+

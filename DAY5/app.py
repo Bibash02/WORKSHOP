@@ -19,6 +19,9 @@ def topics_list():
     # Pass the entire topics list to the template
     return render_template('topics.html', title="Topics - UI/UX Syllabus", topics=topics)
 
+@app.route('/student')
+def student_form():
+    return render_template('student_form.html', title='Student Form')
 
 # 3. Homepage route
 @app.route('/')

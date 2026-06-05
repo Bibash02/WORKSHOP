@@ -1,15 +1,18 @@
-# Create the app
+"""
+Student Performance Predictor - Flask Web Application
+This app takes student study hours and predicts their final score
+"""
+
 from flask import Flask, render_template, request
 import pickle
-import os
 import numpy as np
-
+import os
 
 # Create Flask app
 app = Flask(__name__)
 
 # Load our trained model
-print("Loading student performance model...")
+print("📚 Loading student performance model...")
 
 # Check if model exists
 if os.path.exists('simple_student_model.pkl'):
@@ -26,11 +29,12 @@ else:
     model.fit(X_demo, y_demo)
     print("✅ Demo model created!")
 
-    # Get model coefficients for display
+# Get model coefficients for display
 coefficient = model.coef_[0]
 intercept = model.intercept_
 
 print(f"📐 Model Formula: Score = {coefficient:.2f} × Hours + {intercept:.2f}")
+
 
 def get_grade(score):
     """
@@ -74,22 +78,17 @@ def get_study_tip(hours, score):
         return "💡 Tip: Great work! Consider helping other students who are struggling."
     else:
         return "🎯 Tip: Excellent! Keep challenging yourself with advanced topics."
-    
 
-# List of UI/UX topics from your BCA syllabus
-topics = [
-    {"id": 1, "name": "Fundamentals of UX and UI", "description": "Basic concepts of User Experience and User Interface design", "hours": 4},
-    {"id": 2, "name": "UX vs UI", "description": "Differences between UX and UI designers and their roles", "hours": 2},
-    {"id": 3, "name": "UX Principles", "description": "Usability, Accessibility, Simplicity", "hours": 3},
-    {"id": 4, "name": "Core UX Disciplines", "description": "User research, IA, Interaction design, Visual design", "hours": 5},
-    {"id": 5, "name": "User Interfaces Types", "description": "CLI, GUI, VUI, Menu-driven, NLP-based", "hours": 3},
-]
 
-@app.route('/topics')
-def topics_list():
-    """Show all UI/UX topics"""
-    # Pass the entire topics list to the template
-    return render_template('topics.html', title="Topics - UI/UX Syllabus", topics=topics)
+@app.route('/')
+def home():
+    """
+    Home page - shows the prediction form
+    """
+    return render_template('index.html', 
+                          result_html='',
+                          accuracy=round(abs(coefficient * 2), 1))
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -148,73 +147,41 @@ def predict():
         return render_template('index.html', 
                               result_html=error_html,
                               accuracy=round(abs(coefficient * 2), 1))
-    
-@app.route('/', methods=['GET', 'POST'])
-def student_form():
-    if request.method == 'POST':
-        student_data = {
-          "hours_studied": request.form.get('hours_studied'), 
-          "previous_score": request.form.get('previous_score'),
-          "attendance": request.form.get('attendance'),
-          "sleep_hours": request.form.get('sleep_hours'),
-          "extracurricular": request.form.get('extracurricular'),
-          "parent_education": request.form.get('parent_education')
-        }
-        print(student_data)  # For debugging: see the submitted data in the console
-        predicted_score = predict_performance(student_data)
-        return render_template('student_result.html', title='Student Result', predicted_score=predicted_score)
-    return render_template('student_form.html', title='Student Form')
 
-def predict_performance(student_data):
-    # Convert form data to the format our model expects
-    features = [
-        float(student_data['hours_studied']),
-        float(student_data['previous_score']),
-        float(student_data['attendance']),
-        float(student_data['sleep_hours']),
-        1 if student_data['extracurricular'] == 'yes' else 0,
-        1 if student_data['parent_education'] == 'yes' else 0
-    ]
-    # Use the model to predict performance (this is just a placeholder)
-    predicted_score = model.predict([features])[0]
-    return predicted_score
 
-# 3. Homepage route
-@app.route('/home')
-def home():
-    # This runs when someone visits /
-    return '''
-    <h1>📘 BCA UI/UX Notes</h1>
-    <p>Welcome to your study notebook server.</p>
-    <p>Try these links:</p>
-    <ul>
-        <li><a href="/about">About this project</a></li>
-        <li><a href="/user/student">Dynamic user page</a></li>
-    </ul>
-    '''
-
-# 4. About page
 @app.route('/about')
 def about():
-    return '''
-    <h1>About This Flask App</h1>
-    <p>This app is part of your BCA UI/UX notebook.</p>
-    <p>Flask helps you turn Python code into web pages.</p>
-    <a href="/">← Back to Home</a>
-    '''
+    """
+    About page with information about the model
+    """
+    about_html = f"""
+    <div class="result">
+        <h2>📊 About This Predictor</h2>
+        <p>This tool uses Linear Regression to predict student performance based on study hours.</p>
+        <h3>Model Information:</h3>
+        <ul style="text-align: left;">
+            <li><strong>Formula:</strong> Score = {coefficient:.2f} × Hours + {intercept:.2f}</li>
+            <li><strong>Interpretation:</strong> Each study hour adds {coefficient:.2f} points to the base score</li>
+            <li><strong>Base score:</strong> {intercept:.1f} points (with 0 study hours)</li>
+            <li><strong>Model Type:</strong> Linear Regression</li>
+        </ul>
+        <h3>How to Use:</h3>
+        <ol style="text-align: left;">
+            <li>Enter your daily study hours (1-12 hours)</li>
+            <li>Click "Predict My Score"</li>
+            <li>See your predicted score and grade</li>
+            <li>Get personalized study tips</li>
+        </ol>
+        <p style="margin-top: 20px;">
+            <a href="/" style="color: #3498db;">← Back to Predictor</a>
+        </p>
+    </div>
+    """
+    return render_template('index.html', 
+                          result_html=about_html,
+                          accuracy=round(abs(coefficient * 2), 1))
 
-# 5. Dynamic user page
-@app.route('/user/<username>')
-def user_profile(username):
-    # Show different content based on the URL
-    return f'''
-    <h1>👤 User Profile: {username}</h1>
-    <p>This page is personalized for {username}.</p>
-    <p>In a real app, you would load data from a database here.</p>
-    <a href="/">← Back to Home</a>
-    '''
 
-# 6. Run the server
 # Run the app
 if __name__ == '__main__':
     print("\n" + "="*50)

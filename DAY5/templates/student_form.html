@@ -59,108 +59,121 @@
 </head>
 <body>
 
-    <div class="sf-wrap">
+<div class="sf-wrap">
     <div class="sf-card">
-        <h2 class="sr-only">Student Information Form for performance tracking</h2>
+
+        <h2 class="sr-only">Student Information Form</h2>
 
         <div class="sf-header">
-        <div class="sf-icon-wrap"><i class="ti ti-school" aria-hidden="true"></i></div>
-        <div>
-            <p class="sf-title">Student information</p>
-            <p class="sf-sub">Fill in all fields to submit performance data</p>
-        </div>
-        <span class="sf-badge"><i class="ti ti-lock" style="font-size:11px" aria-hidden="true"></i> Secure</span>
-        </div>
+            <div class="sf-icon-wrap">
+                <i class="ti ti-school"></i>
+            </div>
 
-        <div class="sf-grid">
-        <div class="sf-section-label">Personal</div>
+            <div>
+                <p class="sf-title">Student Information</p>
+                <p class="sf-sub">Fill in all fields to submit performance data</p>
+            </div>
 
-        <div class="sf-group full">
-            <label class="sf-label" for="sname">
-            <i class="ti ti-user" aria-hidden="true"></i> Student name
-            </label>
-            <input type="text" id="sname" name="student_name" placeholder="Full name" required>
+            <span class="sf-badge">
+                <i class="ti ti-lock"></i> Secure
+            </span>
         </div>
 
-        <div class="sf-section-label" style="margin-top:0.5rem;">Academic</div>
+        <form method="POST" action="/student">
 
-        <div class="sf-group">
-            <label class="sf-label" for="hstudy">
-            <i class="ti ti-clock" aria-hidden="true"></i> Hours studied
-            </label>
-            <input type="number" id="hstudy" name="hours_studied" step="0.1" min="0" placeholder="e.g. 4.5" required>
-        </div>
+            <div class="sf-section-label">Academic</div>
 
-        <div class="sf-group">
-            <label class="sf-label" for="pscore">
-            <i class="ti ti-chart-bar" aria-hidden="true"></i> Previous score
-            </label>
-            <input type="number" id="pscore" name="previous_score" min="0" max="100" placeholder="0 – 100" required>
-        </div>
+            <div class="sf-group">
+                <label class="sf-label" for="hstudy">
+                    Hours Studied
+                </label>
+                <input
+                    type="number"
+                    id="hstudy"
+                    name="hours_studied"
+                    step="0.5"
+                    min="0"
+                    required
+                >
+            </div>
 
-        <div class="sf-group">
-            <label class="sf-label" for="attend">
-            <i class="ti ti-calendar-check" aria-hidden="true"></i> Attendance (%)
-            </label>
-            <input type="number" id="attend" name="attendance" min="0" max="100" placeholder="0 – 100" required>
-        </div>
+            <div class="sf-group">
+                <label class="sf-label" for="pscore">
+                    Previous Score
+                </label>
+                <input
+                    type="number"
+                    id="pscore"
+                    name="previous_score"
+                    min="0"
+                    max="100"
+                    required
+                >
+            </div>
 
-        <div class="sf-group">
-            <label class="sf-label" for="sleep">
-            <i class="ti ti-moon" aria-hidden="true"></i> Sleep hours
-            </label>
-            <input type="number" id="sleep" name="sleep_hours" step="0.1" min="0" placeholder="e.g. 7.5" required>
-        </div>
+            <div class="sf-group">
+                <label class="sf-label" for="attend">
+                    Attendance (%)
+                </label>
+                <input
+                    type="number"
+                    id="attend"
+                    name="attendance"
+                    min="0"
+                    max="100"
+                    required
+                >
+            </div>
 
-        <div class="sf-section-label" style="margin-top:0.5rem;">Background</div>
+            <div class="sf-group">
+                <label class="sf-label" for="sleep">
+                    Sleep Hours
+                </label>
+                <input
+                    type="number"
+                    id="sleep"
+                    name="sleep_hours"
+                    step="0.1"
+                    min="0"
+                    required
+                >
+            </div>
 
-        <div class="sf-group">
-            <label class="sf-label" for="extra">
-            <i class="ti ti-activity" aria-hidden="true"></i> Extracurricular
-            </label>
-            <select id="extra" name="extracurricular" required>
-            <option value="" disabled selected>Select</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-            </select>
-        </div>
+            <div class="sf-section-label">Background</div>
 
-        <div class="sf-group">
-            <label class="sf-label" for="paredu">
-            <i class="ti ti-certificate" aria-hidden="true"></i> Parent education
-            </label>
-            <select id="paredu" name="parent_education" required>
-            <option value="" disabled selected>Select level</option>
-            <option value="High School">High school</option>
-            <option value="Bachelor">Bachelor's</option>
-            <option value="Master">Master's</option>
-            <option value="PhD">PhD</option>
-            </select>
-        </div>
-        </div>
+            <div class="sf-group">
+                <label class="sf-label" for="extra">
+                    Extracurricular
+                </label>
+                <select id="extra" name="extracurricular" required>
+                    <option value="">Select</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
 
-        <button class="sf-submit" onclick="handleSubmit()">
-        <i class="ti ti-send" aria-hidden="true"></i> Submit student data
-        </button>
+            <div class="sf-group">
+                <label class="sf-label" for="paredu">
+                    Parent Education
+                </label>
+                <select id="paredu" name="parent_education" required>
+                    <option value="">Select Level</option>
+                    <option value="High School">High School</option>
+                    <option value="Bachelor">Bachelor</option>
+                    <option value="Master">Master</option>
+                    <option value="PhD">PhD</option>
+                </select>
+            </div>
+
+            <button type="submit" class="sf-submit">
+                <i class="ti ti-send"></i>
+                Submit Student Data
+            </button>
+
+        </form>
+
     </div>
-    </div>
+</div>
 
-    <script>
-    function handleSubmit() {
-    const fields = ['sname','hstudy','pscore','attend','sleep','extra','paredu'];
-    const labels = ['Student name','Hours studied','Previous score','Attendance','Sleep hours','Extracurricular','Parent education'];
-    for (let i = 0; i < fields.length; i++) {
-        const el = document.getElementById(fields[i]);
-        if (!el.value) {
-        el.style.borderColor = 'var(--color-border-danger)';
-        el.focus();
-        return;
-        } else {
-        el.style.borderColor = '';
-        }
-    }
-    sendPrompt('The student form has been filled and submitted. The data is: Name=' + document.getElementById('sname').value + ', Hours studied=' + document.getElementById('hstudy').value + ', Previous score=' + document.getElementById('pscore').value + ', Attendance=' + document.getElementById('attend').value + '%, Sleep hours=' + document.getElementById('sleep').value + ', Extracurricular=' + document.getElementById('extra').value + ', Parent education=' + document.getElementById('paredu').value);
-    }
-    </script>
 </body>
 </html>
